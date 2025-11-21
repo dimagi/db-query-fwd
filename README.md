@@ -1,5 +1,5 @@
-db_fwd
-======
+Database Query Forwarder
+========================
 
 Forwards a SQL query result to a web API endpoint.
 
@@ -7,7 +7,7 @@ Forwards a SQL query result to a web API endpoint.
 Use Case
 --------
 
-**db_fwd** was created to send data, aggregated in PostgreSQL, to the
+**DQF** was created to send data, aggregated in PostgreSQL, to the
 [DHIS2 API for data value sets](https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-242/data.html).
 
 It is generic enough to send data from any database that can return a
@@ -15,9 +15,9 @@ result as a JSON object (e.g. SQL Server, MySQL, MariaDB, Oracle
 Database, IBM Db2) to any API endpoint that accepts JSON data and
 supports basic authentication.
 
-Based on this use case, **db_fwd** expects queries to return only one
-row, and only one field, which contains the payload. It will return an
-error if a query returns more than one row and more than one field.
+Based on this use case, **DQF** expects queries to return only one row,
+and only one field, which contains the payload. It will return an error
+if a query returns more than one row and more than one field.
 
 
 Installation
@@ -99,8 +99,8 @@ available:
 `DB_FWD_DB_URL` stores the URL of the database to query for all queries.
 
 `DB_FWD_API_USERNAME` stores the username to use for API authentication.
-Currently basic auth is the only API authentication method that
-**db_fwd** supports.
+Currently basic auth is the only API authentication method that **DQF**
+supports.
 
 `DB_FWD_API_PASSWORD` stores the password to use for API authentication.
 
@@ -108,9 +108,9 @@ Currently basic auth is the only API authentication method that
 Configuration File
 ------------------
 
-**db_fwd** looks for a configuration file named "db_fwd.toml" by default.
+**DQF** looks for a configuration file named "db_fwd.toml" by default.
 The configuration file is given in TOML format. This file can contain
-passwords, and should only be readable by the user that **db_fwd** will
+passwords, and should only be readable by the user that **DQF** will
 run as.
 
 The `db_fwd.toml.example` file includes detailed examples. It can be

@@ -71,7 +71,7 @@ wheels = [
 ]
 
 [[package]]
-name = "db-fwd"
+name = "db-query-fwd"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

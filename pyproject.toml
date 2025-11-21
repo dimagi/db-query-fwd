@@ -1,5 +1,5 @@
 [project]
-name = "db_fwd"
+name = "db-query-fwd"
 version = "0.1.0"
 description = "Forwards a SQL query result to a web API endpoint."
 readme = "README.md"
@@ -26,6 +26,9 @@ dev = [
     "pytest-unmagic>=1.0.1",
     "ruff>=0.14.2",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["db_fwd"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
