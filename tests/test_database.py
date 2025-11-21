@@ -12,7 +12,7 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.exc import SQLAlchemyError
 from unmagic import fixture
 
-from db_fwd import execute_query, DatabaseHandler
+from dqf import execute_query, DatabaseHandler
 
 TEST_DB_URL = 'postgresql://postgres:postgres@localhost:5432/postgres'
 
@@ -50,7 +50,7 @@ def test_log_db():
     engine = create_engine(TEST_DB_URL)
 
     with engine.connect() as conn:
-        conn.execute(text('DROP TABLE IF EXISTS db_fwd_logs'))
+        conn.execute(text('DROP TABLE IF EXISTS dqf_logs'))
         conn.commit()
 
     try:
@@ -58,7 +58,7 @@ def test_log_db():
 
     finally:
         with engine.connect() as conn:
-            conn.execute(text('DROP TABLE IF EXISTS db_fwd_logs'))
+            conn.execute(text('DROP TABLE IF EXISTS dqf_logs'))
             conn.commit()
 
         engine.dispose()
@@ -155,7 +155,7 @@ def test_execute_query_multiple_rows():
         execute_query(db_url, 'SELECT data FROM test_data;', [])
 
 
-@patch('db_fwd.create_engine')
+@patch('dqf.create_engine')
 def test_execute_query_database_error(mock_create_engine):
     mock_engine = Mock()
     mock_conn = Mock()
@@ -184,7 +184,7 @@ def test_database_handler_init():
                 SELECT EXISTS (
                     SELECT 1
                     FROM information_schema.tables
-                    WHERE table_name='db_fwd_logs'
+                    WHERE table_name='dqf_logs'
                 )
                 """
             )
@@ -208,7 +208,7 @@ def test_database_handler_emit():
 
     engine = create_engine(log_db_url)
     with engine.connect() as conn:
-        result = conn.execute(text('SELECT level, message FROM db_fwd_logs'))
+        result = conn.execute(text('SELECT level, message FROM dqf_logs'))
         row = result.fetchone()
         assert row is not None
         assert row[0] == 'INFO'
@@ -218,7 +218,7 @@ def test_database_handler_emit():
     logger.removeHandler(handler)
 
 
-@patch('db_fwd.create_engine')
+@patch('dqf.create_engine')
 def test_database_handler_emit_error(mock_create_engine):
     import logging
 

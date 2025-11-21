@@ -12,8 +12,8 @@ See @DESIGN.md for design context.
 The following commands assume that the virtual environment is active.
 
 * Running tests: `pytest tests/`
-* Type checking: `mypy db_fwd.py tests/`
-* Linting: `ruff check db_fwd.py tests/`
+* Type checking: `mypy dqf.py tests/`
+* Linting: `ruff check dqf.py tests/`
 * Formatting: `ruff format <path/to/file.py>`
 
 

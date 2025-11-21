@@ -30,8 +30,8 @@ Installation
 
 2. Clone this repository:
    ```shell
-   $ git clone https://github.com/dimagi/db_fwd.git
-   $ cd db_fwd/
+   $ git clone https://github.com/dimagi/db-query-fwd.git
+   $ cd db-query-fwd/
    ```
 
 </details>
@@ -41,12 +41,12 @@ Installation
 
 Download the Windows executable:
 
-1. Open https://github.com/dimagi/db_fwd in your browser.
+1. Open https://github.com/dimagi/db-query-fwd in your browser.
 2. Navigate to the "Actions" tab.
 3. Open the latest workflow run, or select "Build Windows executable"
    and click "Run workflow" if no workflow runs are listed.
-4. Download the `db-fwd-exe` artifact.
-5. Unzip `db-fwd-exe.zip` and extract `db_fwd.exe`.
+4. Download the `dqf-exe` artifact.
+5. Unzip `dqf-exe.zip` and extract `dqf.exe`.
 
 No Python installation required.
 
@@ -60,7 +60,7 @@ Usage
 <summary><b>Linux/Mac</b></summary>
 
 ```shell
-$ uv run db_fwd.py \
+$ uv run dqf.py \
     --log-level [none,info,debug] \
     --log-file <filename> \
     --config-file <filename> \
@@ -72,19 +72,19 @@ The log level given on the command line overrides the value set in the
 config file. If not specified, the default value is "info".
 
 The log file given on the command line overrides the value set in the
-config file. If not specified, the default value is "db_fwd.log".
+config file. If not specified, the default value is "dqf.log".
 
-The config file defaults to "db_fwd.toml".
+The config file defaults to "dqf.toml".
 
 </details>
 
 <details>
 <summary><b>Windows</b></summary>
 
-Using the Windows executable, `db_fwd.exe`:
+Using the Windows executable, `dqf.exe`:
 
 ```shell
-> db_fwd.exe query_name [query_param] [query_param] etc.
+> dqf.exe query_name [query_param] [query_param] etc.
 ```
 
 </details>
@@ -108,20 +108,20 @@ supports.
 Configuration File
 ------------------
 
-**DQF** looks for a configuration file named "db_fwd.toml" by default.
+**DQF** looks for a configuration file named "dqf.toml" by default.
 The configuration file is given in TOML format. This file can contain
 passwords, and should only be readable by the user that **DQF** will
 run as.
 
-The `db_fwd.toml.example` file includes detailed examples. It can be
-copied to `db_fwd.toml`and customized.
+The `dqf.toml.example` file includes detailed examples. It can be
+copied to `dqf.toml`and customized.
 
 The following is an example configuration:
 
 ```toml
-[db_fwd]
+[dqf]
 log_level = 'info'
-log_file = 'db_fwd.log'
+log_file = 'dqf.log'
 log_db_url = 'postgresql://username:Passw0rd1@pg.example.com:5432/dbname'
 
 [queries]
@@ -139,7 +139,7 @@ api_url = 'https://dhis2.example.com/api/dataset/efgh5678/'
 ```
 
 
-### `db_fwd` Section
+### `dqf` Section
 
 #### Logging
 
@@ -147,11 +147,11 @@ If not specified, `log_level` defaults to "info". Valid values are
 "none", "info" and "debug". The log level applies to both the log file
 and the log database.
 
-If not specified, `log_file` defaults to "db_fwd.log" in the same
-directory as `db_fwd.py`.
+If not specified, `log_file` defaults to "dqf.log" in the same
+directory as `dqf.py`.
 
 `log_db_url` is optional. It stores a database URL. If it is specified
-then logs will be stored in the "db_fwd_logs" table.
+then logs will be stored in the "dqf_logs" table.
 
 
 ### `queries` Section

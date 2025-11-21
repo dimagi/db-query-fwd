@@ -11,7 +11,7 @@ dependencies = [
 ]
 
 [project.scripts]
-db_fwd = "db_fwd:main"
+dqf = "dqf:main"
 
 [build-system]
 requires = ["hatchling"]
@@ -28,7 +28,7 @@ dev = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["db_fwd"]
+packages = ["dqf"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

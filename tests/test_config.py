@@ -7,13 +7,13 @@ from pathlib import Path
 import pytest
 from unmagic import fixture
 
-from db_fwd import Config
+from dqf import Config
 
 
 @fixture
 def sample_config_file():
     config_content = """
-[db_fwd]
+[dqf]
 log_level = 'debug'
 log_file = 'test.log'
 log_db_url = 'postgresql://localhost/test_logs'
@@ -54,7 +54,7 @@ def test_config_load_success():
     config_file = sample_config_file()
     config = Config(config_file)
     assert config.config is not None
-    assert 'db_fwd' in config.config
+    assert 'dqf' in config.config
     assert 'queries' in config.config
 
 
@@ -70,7 +70,7 @@ def test_get_log_level():
 
 
 def test_get_log_level_default():
-    config_content = '[db_fwd]\n'
+    config_content = '[dqf]\n'
 
     with tempfile.NamedTemporaryFile(
         mode='w', suffix='.toml', delete=False
@@ -92,7 +92,7 @@ def test_get_log_file():
 
 
 def test_get_log_file_default():
-    config_content = '[db_fwd]\n'
+    config_content = '[dqf]\n'
 
     with tempfile.NamedTemporaryFile(
         mode='w', suffix='.toml', delete=False
@@ -102,7 +102,7 @@ def test_get_log_file_default():
 
     try:
         config = Config(temp_path)
-        assert config.get_log_file() == 'db_fwd.log'
+        assert config.get_log_file() == 'dqf.log'
     finally:
         Path(temp_path).unlink()
 

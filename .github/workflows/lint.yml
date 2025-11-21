@@ -14,4 +14,4 @@ jobs:
           fetch-depth: 0
       - uses: astral-sh/setup-uv@v5
       - run: uv sync --group dev
-      - run: uv run ruff check db_fwd.py tests/
+      - run: uv run ruff check dqf.py tests/

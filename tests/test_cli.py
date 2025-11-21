@@ -3,21 +3,21 @@
 import pytest
 from unittest.mock import patch, Mock
 
-from db_fwd import parse_args, main
+from dqf import parse_args, main
 
 
 def test_parse_args_minimal():
-    with patch('sys.argv', ['db_fwd.py', 'query_name']):
+    with patch('sys.argv', ['dqf.py', 'query_name']):
         args = parse_args()
         assert args.query_name == 'query_name'
         assert args.query_params == []
         assert args.log_level is None
         assert args.log_file is None
-        assert args.config_file == 'db_fwd.toml'
+        assert args.config_file == 'dqf.toml'
 
 
 def test_parse_args_with_params():
-    with patch('sys.argv', ['db_fwd.py', 'query_name', 'param1', 'param2']):
+    with patch('sys.argv', ['dqf.py', 'query_name', 'param1', 'param2']):
         args = parse_args()
         assert args.query_name == 'query_name'
         assert args.query_params == ['param1', 'param2']
@@ -25,7 +25,7 @@ def test_parse_args_with_params():
 
 def test_parse_args_with_log_level():
     with patch(
-        'sys.argv', ['db_fwd.py', '--log-level', 'debug', 'query_name']
+        'sys.argv', ['dqf.py', '--log-level', 'debug', 'query_name']
     ):
         args = parse_args()
         assert args.log_level == 'debug'
@@ -33,7 +33,7 @@ def test_parse_args_with_log_level():
 
 def test_parse_args_with_log_file():
     with patch(
-        'sys.argv', ['db_fwd.py', '--log-file', 'custom.log', 'query_name']
+        'sys.argv', ['dqf.py', '--log-file', 'custom.log', 'query_name']
     ):
         args = parse_args()
         assert args.log_file == 'custom.log'
@@ -41,7 +41,7 @@ def test_parse_args_with_log_file():
 
 def test_parse_args_with_config_file():
     with patch(
-        'sys.argv', ['db_fwd.py', '--config-file', 'custom.toml', 'query_name']
+        'sys.argv', ['dqf.py', '--config-file', 'custom.toml', 'query_name']
     ):
         args = parse_args()
         assert args.config_file == 'custom.toml'
@@ -49,7 +49,7 @@ def test_parse_args_with_config_file():
 
 def test_parse_args_all_options():
     test_argv = [
-        'db_fwd.py',
+        'dqf.py',
         '--log-level',
         'info',
         '--log-file',
@@ -70,10 +70,10 @@ def test_parse_args_all_options():
         assert args.query_params == ['param1', 'param2']
 
 
-@patch('db_fwd.forward_to_api')
-@patch('db_fwd.execute_query')
-@patch('db_fwd.set_up_logging')
-@patch('db_fwd.Config')
+@patch('dqf.forward_to_api')
+@patch('dqf.execute_query')
+@patch('dqf.set_up_logging')
+@patch('dqf.Config')
 def test_main_success(
     mock_config_class,
     mock_setup_logging,
@@ -92,28 +92,28 @@ def test_main_success(
 
     mock_execute_query.return_value = '{"test": "data"}'
 
-    with patch('sys.argv', ['db_fwd.py', 'test_query']):
+    with patch('sys.argv', ['dqf.py', 'test_query']):
         main()
 
-    mock_config_class.assert_called_once_with('db_fwd.toml')
+    mock_config_class.assert_called_once_with('dqf.toml')
     mock_setup_logging.assert_called_once_with('info', 'test.log', None)
     mock_execute_query.assert_called_once()
     mock_forward_to_api.assert_called_once()
 
 
-@patch('db_fwd.Config')
+@patch('dqf.Config')
 def test_main_config_file_not_found(mock_config_class):
     mock_config_class.side_effect = FileNotFoundError('Config not found')
 
-    with patch('sys.argv', ['db_fwd.py', 'test_query']):
+    with patch('sys.argv', ['dqf.py', 'test_query']):
         with pytest.raises(SystemExit) as exc_info:
             main()
         assert exc_info.value.code == 1
 
 
-@patch('db_fwd.execute_query')
-@patch('db_fwd.set_up_logging')
-@patch('db_fwd.Config')
+@patch('dqf.execute_query')
+@patch('dqf.set_up_logging')
+@patch('dqf.Config')
 def test_main_query_error(
     mock_config_class,
     mock_setup_logging,
@@ -131,16 +131,16 @@ def test_main_query_error(
 
     mock_execute_query.side_effect = ValueError('Query failed')
 
-    with patch('sys.argv', ['db_fwd.py', 'test_query']):
+    with patch('sys.argv', ['dqf.py', 'test_query']):
         with pytest.raises(SystemExit) as exc_info:
             main()
         assert exc_info.value.code == 1
 
 
-@patch('db_fwd.forward_to_api')
-@patch('db_fwd.execute_query')
-@patch('db_fwd.set_up_logging')
-@patch('db_fwd.Config')
+@patch('dqf.forward_to_api')
+@patch('dqf.execute_query')
+@patch('dqf.set_up_logging')
+@patch('dqf.Config')
 def test_main_api_error(
     mock_config_class,
     mock_setup_logging,
@@ -160,16 +160,16 @@ def test_main_api_error(
     mock_execute_query.return_value = '{"test": "data"}'
     mock_forward_to_api.side_effect = Exception('API failed')
 
-    with patch('sys.argv', ['db_fwd.py', 'test_query']):
+    with patch('sys.argv', ['dqf.py', 'test_query']):
         with pytest.raises(SystemExit) as exc_info:
             main()
         assert exc_info.value.code == 1
 
 
-@patch('db_fwd.forward_to_api')
-@patch('db_fwd.execute_query')
-@patch('db_fwd.set_up_logging')
-@patch('db_fwd.Config')
+@patch('dqf.forward_to_api')
+@patch('dqf.execute_query')
+@patch('dqf.set_up_logging')
+@patch('dqf.Config')
 def test_main_with_query_params(
     mock_config_class,
     mock_setup_logging,
@@ -188,7 +188,7 @@ def test_main_with_query_params(
 
     mock_execute_query.return_value = '{"test": "data"}'
 
-    with patch('sys.argv', ['db_fwd.py', 'test_query', '2024Q1']):
+    with patch('sys.argv', ['dqf.py', 'test_query', '2024Q1']):
         main()
 
     mock_execute_query.assert_called_once()
@@ -196,10 +196,10 @@ def test_main_with_query_params(
     assert call_args[2] == ['2024Q1']  # params argument
 
 
-@patch('db_fwd.forward_to_api')
-@patch('db_fwd.execute_query')
-@patch('db_fwd.set_up_logging')
-@patch('db_fwd.Config')
+@patch('dqf.forward_to_api')
+@patch('dqf.execute_query')
+@patch('dqf.set_up_logging')
+@patch('dqf.Config')
 def test_main_with_cli_overrides(
     mock_config_class,
     mock_setup_logging,
@@ -221,7 +221,7 @@ def test_main_with_cli_overrides(
     with patch(
         'sys.argv',
         [
-            'db_fwd.py',
+            'dqf.py',
             '--log-level',
             'debug',
             '--log-file',
