@@ -25,9 +25,9 @@ type CredentialsType = tuple[UsernameType, PasswordType]
 
 
 class Config:
-    """Configuration manager for db_fwd."""
+    """Configuration manager for db-query-fwd."""
 
-    def __init__(self, config_filename='db_fwd.toml'):
+    def __init__(self, config_filename='dqf.toml'):
         self.config_file = config_filename
         self.config = {}
         self.load_config()
@@ -42,17 +42,17 @@ class Config:
         with open(config_path, 'rb') as f:
             self.config = tomllib.load(f)
 
-    def _get_db_fwd(self):
-        return self.config.get('db_fwd', {})
+    def _get_dqf(self):
+        return self.config.get('dqf', {})
 
     def get_log_level(self):
-        return self._get_db_fwd().get('log_level', 'info')
+        return self._get_dqf().get('log_level', 'info')
 
     def get_log_file(self):
-        return self._get_db_fwd().get('log_file', 'db_fwd.log')
+        return self._get_dqf().get('log_file', 'dqf.log')
 
     def get_log_db_url(self) -> str | None:
-        log_db_url: str | None = self._get_db_fwd().get('log_db_url')
+        log_db_url: str | None = self._get_dqf().get('log_db_url')
         return log_db_url
 
     def get_db_url(self, query_name=None):
@@ -139,7 +139,7 @@ class DatabaseHandler(logging.Handler):
 
     def _ensure_table(self):
         create_table_sql = """
-        CREATE TABLE IF NOT EXISTS db_fwd_logs (
+        CREATE TABLE IF NOT EXISTS dqf_logs (
             id SERIAL PRIMARY KEY,
             timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             level VARCHAR(10),
@@ -153,7 +153,7 @@ class DatabaseHandler(logging.Handler):
 
     def emit(self, record):
         insert_sql = """
-        INSERT INTO db_fwd_logs (level, message)
+        INSERT INTO dqf_logs (level, message)
         VALUES (:level, :message)
         """
 
@@ -266,8 +266,8 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         '--config-file',
-        default='db_fwd.toml',
-        help='Configuration file path (default: db_fwd.toml)',
+        default='dqf.toml',
+        help='Configuration file path (default: dqf.toml)',
     )
     parser.add_argument('query_name', help='Name of the query to execute')
     parser.add_argument(
@@ -288,7 +288,7 @@ def main():
         log_db_url = config.get_log_db_url()
         set_up_logging(log_level, log_file, log_db_url)
 
-        logging.info(f'Starting db_fwd for query: {args.query_name}')
+        logging.info(f'Starting dqf for query: {args.query_name}')
 
         db_url = config.get_db_url(args.query_name)
         query = config.get_query(args.query_name)

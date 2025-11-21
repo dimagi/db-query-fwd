@@ -1,16 +1,16 @@
-# Example configuration file for db_fwd
-# Copy this file to db_fwd.toml and customize for your environment
+# Example configuration file for db-query-fwd
+# Copy this file to dqf.toml and customize for your environment
 
-[db_fwd]
+[dqf]
 # Log level: 'none', 'info', or 'debug'
 log_level = 'info'
 
 # Path to log file
-log_file = 'db_fwd.log'
+log_file = 'dqf.log'
 
 # Optional: Database URL for storing debug-level logs
-# Logs will be stored in the db_fwd_logs table
-log_db_url = 'postgresql://username:password@localhost:5432/db_fwd'
+# Logs will be stored in the dqf_logs table
+log_db_url = 'postgresql://username:password@localhost:5432/dqf'
 
 [queries]
 # Default database URL for all queries (can be overridden per query)

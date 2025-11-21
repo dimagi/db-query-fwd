@@ -6,10 +6,10 @@ from unittest.mock import Mock, patch
 import requests
 from unmagic import get_request
 
-from db_fwd import forward_to_api
+from dqf import forward_to_api
 
 
-@patch('db_fwd.requests.post')
+@patch('dqf.requests.post')
 def test_forward_to_api_success(mock_post):
     mock_response = Mock()
     mock_response.status_code = 200
@@ -28,7 +28,7 @@ def test_forward_to_api_success(mock_post):
     mock_response.raise_for_status.assert_called_once()
 
 
-@patch('db_fwd.requests.post')
+@patch('dqf.requests.post')
 def test_forward_to_api_no_auth(mock_post):
     mock_response = Mock()
     mock_response.status_code = 200
@@ -46,7 +46,7 @@ def test_forward_to_api_no_auth(mock_post):
     )
 
 
-@patch('db_fwd.requests.post')
+@patch('dqf.requests.post')
 def test_forward_to_api_http_error(mock_post):
     mock_response = Mock()
     mock_response.status_code = 500
@@ -62,7 +62,7 @@ def test_forward_to_api_http_error(mock_post):
         forward_to_api('https://example.com/api', payload, ('user', 'pass'))
 
 
-@patch('db_fwd.requests.post')
+@patch('dqf.requests.post')
 def test_forward_to_api_connection_error(mock_post):
     mock_post.side_effect = requests.exceptions.ConnectionError(
         'Connection refused'
@@ -74,7 +74,7 @@ def test_forward_to_api_connection_error(mock_post):
         forward_to_api('https://example.com/api', payload, ('user', 'pass'))
 
 
-@patch('db_fwd.requests.post')
+@patch('dqf.requests.post')
 def test_forward_to_api_timeout(mock_post):
     mock_post.side_effect = requests.exceptions.Timeout('Request timed out')
 
@@ -84,7 +84,7 @@ def test_forward_to_api_timeout(mock_post):
         forward_to_api('https://example.com/api', payload, ('user', 'pass'))
 
 
-@patch('db_fwd.requests.post')
+@patch('dqf.requests.post')
 def test_forward_to_api_json_payload(mock_post):
     mock_response = Mock()
     mock_response.status_code = 200
@@ -99,7 +99,7 @@ def test_forward_to_api_json_payload(mock_post):
     assert call_kwargs['json'] == payload
 
 
-@patch('db_fwd.requests.post')
+@patch('dqf.requests.post')
 def test_forward_to_api_logging(mock_post):
     log_capture = get_request().getfixturevalue('caplog')
     mock_response = Mock()

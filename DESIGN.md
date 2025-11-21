@@ -1,9 +1,9 @@
-db_fwd
-======
+Database Query Forwarder
+========================
 
-**db_fwd** is a command line tool to call a SQL query that returns
-a JSON result, and to send that result to a DHIS2 API endpoint. The
-query result, the API request, and the API response are all logged.
+**DQF** is a command line tool to call a SQL query that returns a JSON
+result, and to send that result to a DHIS2 API endpoint. The query
+result, the API request, and the API response are all logged.
 
 Read [README.md](README.md) for details.
 
