@@ -3,7 +3,7 @@
 import pytest
 from unittest.mock import patch, Mock
 
-from dqf import parse_args, main
+from dqf.__main__ import parse_args, main
 
 
 def test_parse_args_minimal():
@@ -70,10 +70,10 @@ def test_parse_args_all_options():
         assert args.query_params == ['param1', 'param2']
 
 
-@patch('dqf.forward_to_api')
-@patch('dqf.execute_query')
-@patch('dqf.set_up_logging')
-@patch('dqf.Config')
+@patch('dqf.__main__.forward_to_api')
+@patch('dqf.__main__.execute_query')
+@patch('dqf.__main__.set_up_logging')
+@patch('dqf.__main__.Config')
 def test_main_success(
     mock_config_class,
     mock_setup_logging,
@@ -101,7 +101,7 @@ def test_main_success(
     mock_forward_to_api.assert_called_once()
 
 
-@patch('dqf.Config')
+@patch('dqf.__main__.Config')
 def test_main_config_file_not_found(mock_config_class):
     mock_config_class.side_effect = FileNotFoundError('Config not found')
 
@@ -111,9 +111,9 @@ def test_main_config_file_not_found(mock_config_class):
         assert exc_info.value.code == 1
 
 
-@patch('dqf.execute_query')
-@patch('dqf.set_up_logging')
-@patch('dqf.Config')
+@patch('dqf.__main__.execute_query')
+@patch('dqf.__main__.set_up_logging')
+@patch('dqf.__main__.Config')
 def test_main_query_error(
     mock_config_class,
     mock_setup_logging,
@@ -137,10 +137,10 @@ def test_main_query_error(
         assert exc_info.value.code == 1
 
 
-@patch('dqf.forward_to_api')
-@patch('dqf.execute_query')
-@patch('dqf.set_up_logging')
-@patch('dqf.Config')
+@patch('dqf.__main__.forward_to_api')
+@patch('dqf.__main__.execute_query')
+@patch('dqf.__main__.set_up_logging')
+@patch('dqf.__main__.Config')
 def test_main_api_error(
     mock_config_class,
     mock_setup_logging,
@@ -166,10 +166,10 @@ def test_main_api_error(
         assert exc_info.value.code == 1
 
 
-@patch('dqf.forward_to_api')
-@patch('dqf.execute_query')
-@patch('dqf.set_up_logging')
-@patch('dqf.Config')
+@patch('dqf.__main__.forward_to_api')
+@patch('dqf.__main__.execute_query')
+@patch('dqf.__main__.set_up_logging')
+@patch('dqf.__main__.Config')
 def test_main_with_query_params(
     mock_config_class,
     mock_setup_logging,
@@ -196,10 +196,10 @@ def test_main_with_query_params(
     assert call_args[2] == ['2024Q1']  # params argument
 
 
-@patch('dqf.forward_to_api')
-@patch('dqf.execute_query')
-@patch('dqf.set_up_logging')
-@patch('dqf.Config')
+@patch('dqf.__main__.forward_to_api')
+@patch('dqf.__main__.execute_query')
+@patch('dqf.__main__.set_up_logging')
+@patch('dqf.__main__.Config')
 def test_main_with_cli_overrides(
     mock_config_class,
     mock_setup_logging,

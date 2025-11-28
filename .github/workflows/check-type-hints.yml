@@ -14,4 +14,4 @@ jobs:
           fetch-depth: 0
       - uses: astral-sh/setup-uv@v5
       - run: uv sync --group dev
-      - run: uv run mypy --install-types --non-interactive --explicit-package-bases dqf.py tests/
+      - run: uv run mypy --install-types --non-interactive --explicit-package-bases dqf/

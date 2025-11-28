@@ -29,7 +29,7 @@ jobs:
 
       - name: Build executable with PyInstaller
         run: |
-          uv run pyinstaller --onefile --name dqf --console dqf.py
+          uv run pyinstaller --onefile --name dqf --console dqf/__main__.py
 
       - name: Upload executable artifact
         uses: actions/upload-artifact@v4

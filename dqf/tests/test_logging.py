@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from dqf import set_up_logging
+from dqf.__main__ import set_up_logging
 
 
 def test_setup_logging_info_level():

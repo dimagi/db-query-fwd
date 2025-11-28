@@ -28,10 +28,11 @@ Installation
 
 1. [Install uv](https://docs.astral.sh/uv/getting-started/installation/).
 
-2. Clone this repository:
+2. Clone this repository and install dependencies:
    ```shell
    $ git clone https://github.com/dimagi/db-query-fwd.git
    $ cd db-query-fwd/
+   $ uv sync --extra postgres
    ```
 
 </details>
@@ -60,7 +61,7 @@ Usage
 <summary><b>Linux/Mac</b></summary>
 
 ```shell
-$ uv run dqf.py \
+$ dqf \
     --log-level [none,info,debug] \
     --log-file <filename> \
     --config-file <filename> \
@@ -147,8 +148,7 @@ If not specified, `log_level` defaults to "info". Valid values are
 "none", "info" and "debug". The log level applies to both the log file
 and the log database.
 
-If not specified, `log_file` defaults to "dqf.log" in the same
-directory as `dqf.py`.
+If not specified, `log_file` defaults to "dqf.log".
 
 `log_db_url` is optional. It stores a database URL. If it is specified
 then logs will be stored in the "dqf_logs" table.
