@@ -218,7 +218,7 @@ def test_database_handler_emit():
     logger.removeHandler(handler)
 
 
-@patch('dqf.core.create_engine')
+@patch('dqf.logging_handlers.create_engine')
 def test_database_handler_emit_error(mock_create_engine):
     import logging
 
