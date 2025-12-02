@@ -6,9 +6,7 @@ import tomllib
 from pathlib import Path
 from typing import Any, Optional
 
-type UsernameType = str
-type PasswordType = str
-type CredentialsType = tuple[UsernameType, PasswordType]
+from .types import CredentialsType
 
 
 class Config:

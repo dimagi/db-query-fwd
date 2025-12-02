@@ -8,9 +8,7 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine
 from sqlalchemy.exc import SQLAlchemyError
 
-type UsernameType = str
-type PasswordType = str
-type CredentialsType = tuple[UsernameType, PasswordType]
+from .types import CredentialsType
 
 
 def execute_query(
