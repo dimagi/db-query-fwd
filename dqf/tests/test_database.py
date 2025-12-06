@@ -155,7 +155,7 @@ def test_execute_query_multiple_rows():
         execute_query(db_url, 'SELECT data FROM test_data;', [])
 
 
-@patch('dqf.create_engine')
+@patch('dqf.core.create_engine')
 def test_execute_query_database_error(mock_create_engine):
     mock_engine = Mock()
     mock_conn = Mock()
@@ -218,7 +218,7 @@ def test_database_handler_emit():
     logger.removeHandler(handler)
 
 
-@patch('dqf.create_engine')
+@patch('dqf.logging_handlers.create_engine')
 def test_database_handler_emit_error(mock_create_engine):
     import logging
 

@@ -27,5 +27,5 @@ jobs:
         with:
           fetch-depth: 0
       - uses: astral-sh/setup-uv@v5
-      - run: uv sync --group dev
-      - run: uv run pytest tests/
+      - run: uv sync --group dev --extra postgres
+      - run: uv run pytest dqf/tests/

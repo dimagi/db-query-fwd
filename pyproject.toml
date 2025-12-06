@@ -3,15 +3,19 @@ name = "db-query-fwd"
 version = "0.1.0"
 description = "Forwards a SQL query result to a web API endpoint."
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
     "requests>=2.32.0",
-    "sqlalchemy>=2.0.0",
+    "sqlalchemy>=1.4.0",
+]
+
+[project.optional-dependencies]
+postgres = [
     "psycopg2-binary>=2.9.0",
 ]
 
 [project.scripts]
-dqf = "dqf:main"
+dqf = "dqf.__main__:main"
 
 [build-system]
 requires = ["hatchling"]
@@ -31,7 +35,7 @@ dev = [
 packages = ["dqf"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["dqf/tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
