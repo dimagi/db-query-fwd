@@ -54,11 +54,15 @@ def forward_to_api(
     api_url: str,
     payload: Any,
     credentials: Optional[CredentialsType] = None,
+    method: str = 'POST',
 ) -> requests.Response:
-    logging.info(f'Forwarding to API: {api_url}')
-    logging.debug(f'API Request - URL: {api_url}, Payload: {payload}')
+    logging.info(f'Forwarding to API: {method} {api_url}')
+    logging.debug(
+        f'API Request - Method: {method}, URL: {api_url}, Payload: {payload}'
+    )
 
-    response = requests.post(
+    response = requests.request(
+        method,
         api_url,
         json=payload,
         auth=credentials,

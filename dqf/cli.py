@@ -79,12 +79,13 @@ def main():
         db_url = config.get_db_url(args.query_name)
         query = config.get_query(args.query_name)
         api_url = config.get_api_url(args.query_name)
+        api_method = config.get_api_method(args.query_name)
         creds = config.get_api_credentials(args.query_name)
 
         result = execute_query(db_url, query, args.query_params)
         logging.debug(f'Query result: {result}')
 
-        forward_to_api(api_url, result, creds)
+        forward_to_api(api_url, result, creds, method=api_method)
 
         logging.info('Completed successfully')
 
