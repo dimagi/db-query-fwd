@@ -137,6 +137,7 @@ api_url = 'https://dhis2.example.com/api/dataset/abcd1234/'
 [queries.queryname2]
 query = "SELECT json_payload FROM queryname2_view WHERE category_id = :param1 AND period = :param2;"
 api_url = 'https://dhis2.example.com/api/dataset/efgh5678/'
+api_method = 'PUT'
 ```
 
 
@@ -164,6 +165,11 @@ override this value by specifying `db_url` in its section.
 forwarded to. This setting is optional. A query can override this value
 by specifying `api_url` in its section.
 
+`api_method` is the HTTP method used to forward query results.
+Supported values are `POST` (default), `PUT`, `PATCH`, and `DELETE`.
+This setting is optional. A query can override this value by specifying
+`api_method` in its section.
+
 `api_username` sets the username, and `api_password` override the
 environment variables "DB_FWD_API_USERNAME" and "DB_FWD_API_PASSWORD".
 
@@ -183,6 +189,9 @@ these placeholders in order (first command line parameter becomes
 `query` will be forwarded to. If `api_url` was given in the `queries`
 section then this setting is optional. If both are given then this value
 overrides the value given in the `queries` section.
+
+`api_method` can optionally be set here to override the HTTP method
+given in the `queries` section. If neither is given, `POST` is used.
 
 `api_username` and `api_password` can optionally be set here to override
 the values given in the `queries` section.
