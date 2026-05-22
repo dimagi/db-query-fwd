@@ -23,10 +23,12 @@ db_url = 'postgresql://localhost/test_db'
 api_username = 'test_user'
 api_password = 'test_pass'
 api_url = 'https://example.com/api/default'
+api_method = 'PUT'
 
 [queries.test_query]
 query = "SELECT json_payload FROM test_view WHERE id = '%s';"
 api_url = 'https://example.com/api/test'
+api_method = 'patch'
 
 [queries.query_with_db]
 query = "SELECT data FROM other_view;"
@@ -243,6 +245,62 @@ query = "SELECT 1;"
         config = Config(temp_path)
         with pytest.raises(ValueError, match='API URL not configured'):
             config.get_api_url('test')
+    finally:
+        Path(temp_path).unlink()
+
+
+def test_get_api_method_default():
+    config_content = """
+[queries]
+
+[queries.test]
+query = "SELECT 1;"
+api_url = "https://example.com/api"
+"""
+    with tempfile.NamedTemporaryFile(
+        mode='w', suffix='.toml', delete=False
+    ) as f:
+        f.write(config_content)
+        temp_path = f.name
+
+    try:
+        config = Config(temp_path)
+        assert config.get_api_method('test') == 'POST'
+    finally:
+        Path(temp_path).unlink()
+
+
+def test_get_api_method_from_queries_section():
+    config_file = sample_config_file()
+    config = Config(config_file)
+    assert config.get_api_method('minimal_query') == 'PUT'
+
+
+def test_get_api_method_query_specific_overrides():
+    config_file = sample_config_file()
+    config = Config(config_file)
+    assert config.get_api_method('test_query') == 'PATCH'
+
+
+def test_get_api_method_invalid_raises():
+    config_content = """
+[queries]
+api_method = 'GET'
+
+[queries.test]
+query = "SELECT 1;"
+api_url = "https://example.com/api"
+"""
+    with tempfile.NamedTemporaryFile(
+        mode='w', suffix='.toml', delete=False
+    ) as f:
+        f.write(config_content)
+        temp_path = f.name
+
+    try:
+        config = Config(temp_path)
+        with pytest.raises(ValueError, match='Unsupported api_method'):
+            config.get_api_method('test')
     finally:
         Path(temp_path).unlink()
 

@@ -103,6 +103,30 @@ class Config:
 
         raise ValueError(f"API URL not configured for query '{query_name}'")
 
+    def get_api_method(self, query_name: Optional[str] = None) -> str:
+        method = None
+
+        if (
+            query_name
+            and 'queries' in self.config
+            and query_name in self.config['queries']
+        ):
+            method = self.config['queries'][query_name].get('api_method')
+
+        if method is None and 'queries' in self.config:
+            method = self.config['queries'].get('api_method')
+
+        if method is None:
+            return 'POST'
+
+        method_upper: str = method.upper()
+        if method_upper not in {'POST', 'PUT', 'PATCH', 'DELETE'}:
+            raise ValueError(
+                f'Unsupported api_method {method!r}. '
+                "Supported values are 'POST', 'PUT', 'PATCH', 'DELETE'."
+            )
+        return method_upper
+
     def get_api_credentials(
         self, query_name: Optional[str] = None
     ) -> CredentialsType | None:

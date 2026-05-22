@@ -23,6 +23,10 @@ api_password = 'your_password'
 # Optional: Default API URL for all queries
 # api_url = 'https://api.example.com/endpoint'
 
+# Optional: Default HTTP method for forwarding query results.
+# Supported values: 'POST' (default), 'PUT', 'PATCH', 'DELETE'.
+# api_method = 'POST'
+
 # Example query configuration with single parameter
 # Use :param1 for the first parameter passed on command line
 [queries.queryname1]
@@ -34,6 +38,8 @@ api_url = 'https://dhis2.example.com/api/dataset/abcd1234/'
 [queries.queryname2]
 query = "SELECT json_payload FROM queryname2_view WHERE category_id = :param1 AND period = :param2;"
 api_url = 'https://dhis2.example.com/api/dataset/efgh5678/'
+# Override the default method for this query.
+api_method = 'PUT'
 
 # Example query with custom database URL
 [queries.queryname3]
